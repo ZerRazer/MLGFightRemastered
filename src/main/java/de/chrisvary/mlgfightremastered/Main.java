@@ -27,6 +27,7 @@ public final class Main extends JavaPlugin {
         try {
             database.getConnection();
             database.initialization();
+            userManager.loadOnlinePlayer();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +37,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         listener();
-
+        commands();
 
     }
 

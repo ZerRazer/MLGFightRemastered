@@ -21,14 +21,32 @@ public class UserManager {
 
     public void load(Player player) throws SQLException {
         Database db = Main.getInstance().getDatabase();
-        ResultSet rs = db.getConnection().createStatement().executeQuery("SELECT * FROM player_stats");
-
+        PreparedStatement stmt = db.getConnection().prepareStatement("SELECT * FROM player_stats WHERE uuid = ?");
+        stmt.setString(1, player.getUniqueId().toString());
+        ResultSet rs = stmt.executeQuery();
         if(rs.next()){
             User user = new User(UUID.fromString(rs.getString(1)), rs.getString(2),
-                rs.getInt(3), rs.getInt(4));
+                    rs.getInt(3), rs.getInt(4));
             users.add(user);
+            rs.close();
         }
-        rs.close();
+
+    }
+    public void loadOnlinePlayer() throws SQLException {
+        Database db = Main.getInstance().getDatabase();
+
+        for(Player player : Bukkit.getOnlinePlayers()){
+            PreparedStatement stmt = db.getConnection().prepareStatement("SELECT * FROM player_stats" +
+                    " WHERE uuid = ?");
+            stmt.setString(1, player.getUniqueId().toString());
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                User user = new User(UUID.fromString(rs.getString(1)), rs.getString(2),
+                        rs.getInt(3), rs.getInt(4));
+                users.add(user);
+            }
+            rs.close();
+        }
     }
     public void save() throws SQLException {
         Database db = Main.getInstance().getDatabase();
