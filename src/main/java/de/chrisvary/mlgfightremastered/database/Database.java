@@ -16,15 +16,18 @@ public class Database {
     private Connection connection;
 
     public Connection getConnection() throws SQLException {
+        /*Establish connection between this plugin and the sql data base*/
+
         FileManager fileManager = Main.getInstance().getFileManager();
         if(connection != null)
             return this.connection;
 
+        //Collects login information in config file
         String root = fileManager.getConfig().getString("SQL Data.root");
         String user = fileManager.getConfig().getString("SQL Data.user");
         String password = fileManager.getConfig().getString("SQL Data.password");
 
-        Bukkit.getConsoleSender().sendMessage(root);
+        Bukkit.getConsoleSender().sendMessage("Trying to connect to " + root);
         Connection connection = DriverManager.getConnection(root, user, password);
 
         this.connection = connection;

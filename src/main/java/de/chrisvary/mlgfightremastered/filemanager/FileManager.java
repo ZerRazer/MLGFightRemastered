@@ -40,7 +40,6 @@ public class FileManager {
         config.set("SQL Data.root", "jdbc:mysql://localhost/mlgfight");
         config.set("SQL Data.user", "root");
         config.set("SQL Data.password", "admin");
-        Bukkit.getConsoleSender().sendMessage("Es hat irgendwas gemacht!=");
         config.save(this.file);
     }
     public YamlConfiguration getConfig() {
