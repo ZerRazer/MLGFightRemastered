@@ -1,0 +1,4 @@
+name: MLGFightRemastered
+version: '${project.version}'
+main: de.chrisvary.mlgfightremastered.MLGFightRemastered
+api-version: '1.20'
