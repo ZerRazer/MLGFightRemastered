@@ -1,12 +1,12 @@
 package de.chrisvary.mlgfightremastered;
 
+import de.chrisvary.mlgfightremastered.commands.Mlgfight;
 import de.chrisvary.mlgfightremastered.database.Database;
 import de.chrisvary.mlgfightremastered.filemanager.FileManager;
 import de.chrisvary.mlgfightremastered.listener.DeathListener;
 import de.chrisvary.mlgfightremastered.listener.JoinListener;
 import de.chrisvary.mlgfightremastered.user.UserManager;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,7 +52,7 @@ public final class Main extends JavaPlugin {
     }
 
     public void commands(){
-        Bukkit.getPluginCommand("mlgfight").setExecutor(new );
+        getCommand("mlgfight").setExecutor(new Mlgfight());
     }
     public void listener(){
         PluginManager pm = Bukkit.getPluginManager();
