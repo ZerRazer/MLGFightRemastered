@@ -1,5 +1,6 @@
 de\chrisvary\mlgfightremastered\listener\JoinListener.class
 de\chrisvary\mlgfightremastered\user\User.class
+de\chrisvary\mlgfightremastered\listener\DeathListener.class
 de\chrisvary\mlgfightremastered\filemanager\FileManager.class
 de\chrisvary\mlgfightremastered\database\Database.class
 de\chrisvary\mlgfightremastered\Main.class

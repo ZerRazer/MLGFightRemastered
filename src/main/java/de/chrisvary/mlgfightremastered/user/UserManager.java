@@ -2,6 +2,7 @@ package de.chrisvary.mlgfightremastered.user;
 
 import de.chrisvary.mlgfightremastered.Main;
 import de.chrisvary.mlgfightremastered.database.Database;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -40,14 +41,15 @@ public class UserManager {
             int deaths = user.getDeaths();
 
             try {
-                PreparedStatement stmt = con.prepareStatement("UPDATE player_stats" +
-                        "SET name = '?', kills = ?, deaths = ?) WHERE uuid = '?'");
+                PreparedStatement stmt = con.prepareStatement("UPDATE player_stats " +
+                        "SET name = ?, kills = ?, deaths = ? WHERE uuid = ?");
 
                 stmt.setString(1, name);
                 stmt.setInt(2, kills);
                 stmt.setInt(3, deaths);
                 stmt.setString(4, uuid.toString());
 
+                Bukkit.getConsoleSender().sendMessage("§3WURDE ERFOLGREICH HOCHGELADEN");
                 stmt.executeUpdate();
                 stmt.close();
             } catch (SQLException e) {
