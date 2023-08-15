@@ -1,6 +1,7 @@
 package de.chrisvary.mlgfightremastered;
 
 import de.chrisvary.mlgfightremastered.database.Database;
+import de.chrisvary.mlgfightremastered.filemanager.FileManager;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,9 +10,11 @@ import java.sql.SQLException;
 public final class Main extends JavaPlugin {
     private static Main instance;
     private Database database;
+    private FileManager fileManager;
     @Override
     public void onLoad(){
         instance = this;
+        fileManager = new FileManager();
         try {
             database.getConnection();
             database.initialization();
