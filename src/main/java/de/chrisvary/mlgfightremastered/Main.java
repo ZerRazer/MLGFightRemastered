@@ -15,6 +15,7 @@ public final class Main extends JavaPlugin {
     public void onLoad(){
         instance = this;
         fileManager = new FileManager();
+        database = new Database();
         try {
             database.getConnection();
             database.initialization();
@@ -33,6 +34,11 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        try {
+            database.getConnection().close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Main getInstance() {
@@ -41,5 +47,9 @@ public final class Main extends JavaPlugin {
 
     public Database getDatabase() {
         return database;
+    }
+
+    public FileManager getFileManager() {
+        return fileManager;
     }
 }

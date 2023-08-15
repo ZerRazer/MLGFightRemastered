@@ -1,5 +1,6 @@
 package de.chrisvary.mlgfightremastered.filemanager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.Yaml;
 
@@ -22,14 +23,26 @@ public class FileManager {
         if(!this.file.exists()){
             try {
                 this.file.createNewFile();
+                //Create the first lines of the file
+                standardConfiguration(YamlConfiguration.loadConfiguration(this.file));
+
             }
             catch(IOException e){
                 e.printStackTrace();
             }
         }
+
         this.config = YamlConfiguration.loadConfiguration(this.file);
+
     }
 
+    public void standardConfiguration(YamlConfiguration config) throws IOException {
+        config.set("SQL Data.root", "jdbc:mysql://localhost/mlgfight");
+        config.set("SQL Data.user", "root");
+        config.set("SQL Data.password", "admin");
+        Bukkit.getConsoleSender().sendMessage("Es hat irgendwas gemacht!=");
+        config.save(this.file);
+    }
     public YamlConfiguration getConfig() {
         return config;
     }

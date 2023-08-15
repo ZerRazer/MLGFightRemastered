@@ -39,6 +39,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <outputDirectory>C:\Users\Chris\Documents\MinecraftPlugins\Server\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
