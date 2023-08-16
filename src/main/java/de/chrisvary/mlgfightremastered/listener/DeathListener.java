@@ -28,15 +28,18 @@ public class DeathListener implements Listener {
     @EventHandler
     public void onKill(EntityDeathEvent event){
         UserManager userManager = Main.getInstance().getUserManager();
-        if(event.getEntity().getKiller() != null){
-            Player p = event.getEntity().getKiller();
-            if(p != null){
-                int index = getUserIndex(p.getUniqueId());
-                if(index == -1)
-                    return;
-                User user = userManager.getUsers().get(index);
-                user.setKills(user.getKills() + 1);
-                p.sendMessage("Deine aktuellen Kills betragen: " + user.getKills());
+        if(event.getEntity() instanceof Player){
+            if(event.getEntity().getKiller() != null){
+                Player p = event.getEntity().getKiller();
+                if(p != null){
+                    int index = getUserIndex(p.getUniqueId());
+                    if(index == -1)
+                        return;
+                    User user = userManager.getUsers().get(index);
+                    user.setKills(user.getKills() + 1);
+                    p.sendMessage("Deine aktuellen Kills betragen: " + user.getKills());
+                }
+
             }
 
         }
