@@ -42,6 +42,11 @@ public class Database {
                 "player_stats(uuid VARCHAR(36) PRIMARY KEY, name VARCHAR(30), kills int, " +
                 "deaths int, playtime TIME, firstJoin DATE, lastPlayed DATE); ");
         stmt.executeUpdate();
+
+        stmt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " +
+                "mlgfight_locations(name VARCHAR(20) PRIMARY KEY, x INT, y INT, z INT, world VARCHAR(30))");
+
+        stmt.executeUpdate();
         stmt.close();
     }
 }

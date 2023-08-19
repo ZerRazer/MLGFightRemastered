@@ -3,8 +3,10 @@ package de.chrisvary.mlgfightremastered;
 import de.chrisvary.mlgfightremastered.commands.Mlgfight;
 import de.chrisvary.mlgfightremastered.database.Database;
 import de.chrisvary.mlgfightremastered.filemanager.FileManager;
+import de.chrisvary.mlgfightremastered.listener.BlockListener;
 import de.chrisvary.mlgfightremastered.listener.DeathListener;
 import de.chrisvary.mlgfightremastered.listener.JoinListener;
+import de.chrisvary.mlgfightremastered.spielmanager.SpielManager;
 import de.chrisvary.mlgfightremastered.user.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -17,14 +19,15 @@ public final class Main extends JavaPlugin {
     private Database database;
     private FileManager fileManager;
     private UserManager userManager;
+    private SpielManager spielManager;
     @Override
     public void onLoad(){
         instance = this;
         fileManager = new FileManager();
         database = new Database();
         userManager = new UserManager();
-
         try {
+            spielManager = new SpielManager();
             database.getConnection();
             database.initialization();
             userManager.loadOnlinePlayer();
@@ -57,7 +60,7 @@ public final class Main extends JavaPlugin {
     }
     public void listener(){
         PluginManager pm = Bukkit.getPluginManager();
-
+        pm.registerEvents(new BlockListener(), this);
         pm.registerEvents(new JoinListener(), this);
         pm.registerEvents(new DeathListener(), this);
     }
@@ -76,5 +79,9 @@ public final class Main extends JavaPlugin {
 
     public UserManager getUserManager() {
         return userManager;
+    }
+
+    public SpielManager getSpielManager() {
+        return spielManager;
     }
 }

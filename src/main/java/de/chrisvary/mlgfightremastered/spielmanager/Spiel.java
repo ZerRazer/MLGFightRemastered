@@ -1,5 +1,6 @@
 package de.chrisvary.mlgfightremastered.spielmanager;
 
+import com.sun.tools.javac.file.Locations;
 import de.chrisvary.mlgfightremastered.Main;
 import de.chrisvary.mlgfightremastered.database.Database;
 import org.bukkit.Bukkit;
@@ -16,15 +17,27 @@ import java.util.HashMap;
 public class Spiel {
     private int runde;
     private boolean running;
-    private Player player1, player2;
     private HashMap<String, Location> locations;
     private Inventory lobbyInventory, gameInventory;
+    private Player player1, player2;
 
     public Spiel(Player player1, Player player2) throws SQLException {
         runde = 0;
         running = false;
         this.player1 = player1;
         this.player2 = player2;
+
+        locations = new HashMap<>();
+        locations.put("player1_spawn", null);
+        locations.put("player2_spawn", null);
+        locations.put("lobbyspawn", null);
+
+        loadSpawnPoints();
+    }
+    public Spiel(Player player) throws SQLException {
+        runde = 0;
+        running = false;
+        this.player1 = player;
 
         locations = new HashMap<>();
         locations.put("player1_spawn", null);
@@ -43,7 +56,11 @@ public class Spiel {
             String world;
 
             try {
-                ResultSet rs = stmt.executeQuery("SELECT * FROM mlgfight_locations WHERE name = " + name);
+                //ResultSet rs = stmt.executeQuery("SELECT * FROM mlgfight_locations WHERE name = " + name);
+                PreparedStatement state = db.getConnection().prepareStatement("SELECT * FROM mlgfight_locations WHERE name = ?");
+                state.setString(1, name);
+                ResultSet rs = state.executeQuery();
+                rs.next();
                 x = rs.getInt(2);
                 y = rs.getInt(3);
                 z = rs.getInt(4);
@@ -51,10 +68,37 @@ public class Spiel {
                 Location loc = new Location(Bukkit.getWorld(world), x, y, z);
 
                 locations.put(name, loc);
+                state.close();
+                rs.close();
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         });
+    }
+    public void joinPLayer(Player p){
+        if(this.player2 != null){
+            this.player2 = p;
+            p.sendMessage("Du bist dem Spiel gejoint. Dein Gegner ist: " + player2.getName());
+        }
+    }
+
+    public int getRunde() {
+        return runde;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+    public Location getLobbySpawn(){
+        return locations.get(2);
     }
 }

@@ -2,33 +2,96 @@ package de.chrisvary.mlgfightremastered.spielmanager;
 
 import de.chrisvary.mlgfightremastered.Main;
 import de.chrisvary.mlgfightremastered.database.Database;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import javax.xml.crypto.Data;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SpielManager {
     ArrayList<Spiel> runden;
 
-    public SpielManager(){
+    public SpielManager() throws SQLException {
         runden = new ArrayList<>();
     }
 
-    public void sqlDatabasePreparation() throws SQLException {
+    public void createGame(Player p) throws SQLException {
+        Spiel spiel = new Spiel(p);
+        runden.add(spiel);
+        if(spiel.getLobbySpawn() == null)
+            p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+        else
+            p.teleport(spiel.getLobbySpawn());
+        p.sendMessage("[MLGFight]Das Spiel wurde gestartet");
+    }
+    public boolean isPlayerInRunde(Player p){
+        for(Spiel spiel : runden){
+            if(spiel.getPlayer1().equals(p))
+                return true;
+            if(spiel.getPlayer2().equals(p))
+                return true;
+        }
+        return false;
+    }
+    public int getIndexWherePlayer(Player p){
+        int index = 0;
+        for(Spiel spiel : runden){
+            if(spiel.getPlayer1() != null)
+                if(spiel.getPlayer1().equals(p))
+                    return index;
+            if(spiel.getPlayer2() != null)
+                if(spiel.getPlayer2().equals(p))
+                    return index;
+            index++;
+        }
+        return -1;
+    }
+    public int getRoundToJoin(){
+        int index = 0;
+        for(Spiel spiel : runden){
+            if(spiel.getPlayer2() == null){
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+    public void setSpawn(Location loc, String name) throws SQLException {
         Database db = Main.getInstance().getDatabase();
+        PreparedStatement stmt = db.getConnection().prepareStatement("INSERT INTO mlgfight_locations(name, x, y, z, world) " +
+                    "VALUES (?,?,?,?, ?) ON DUPLICATE KEY UPDATE x = ?, y = ?, z = ?, world = ?");
+        stmt.setString(1, name);
+        stmt.setInt(2, (int) loc.getX());
+        stmt.setInt(3, (int) loc.getY());
+        stmt.setInt(4, (int) loc.getZ());
+        stmt.setString(5, Objects.requireNonNull(loc.getWorld()).toString());
 
-        PreparedStatement stmt = db.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS " +
-                "mlgfight_locations(name VARCHAR(20), x INT, y INT, z INT, world VARCHAR(30)");
+        stmt.setInt(6, (int) loc.getX());
+        stmt.setInt(7, (int) loc.getY());
+        stmt.setInt(8, (int) loc.getZ());
+        stmt.setString(9, Objects.requireNonNull(loc.getWorld()).toString());
         stmt.executeUpdate();
 
-        stmt.close();
-    }
 
-    public void createGame(Player p1, Player p2) throws SQLException {
-        Spiel spiel = new Spiel(p1, p2);
+
 
     }
+    public void stopGame(Player p){
+        int index = getIndexWherePlayer(p);
+        if(index != -1) {
+            p.sendMessage("Du bist in keinem Spiel drinnen");
+            return;
+        }
+        runden.remove(index);
+        p.sendMessage("Das Game wurde gestoppt");
+    }
 
-
+    public ArrayList<Spiel> getRunden() {
+        return runden;
+    }
 }

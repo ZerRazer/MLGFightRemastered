@@ -3,6 +3,9 @@ de\chrisvary\mlgfightremastered\user\User.class
 de\chrisvary\mlgfightremastered\listener\DeathListener.class
 de\chrisvary\mlgfightremastered\commands\Mlgfight.class
 de\chrisvary\mlgfightremastered\filemanager\FileManager.class
+de\chrisvary\mlgfightremastered\spielmanager\SpielManager.class
 de\chrisvary\mlgfightremastered\database\Database.class
 de\chrisvary\mlgfightremastered\Main.class
+de\chrisvary\mlgfightremastered\listener\BlockListener.class
+de\chrisvary\mlgfightremastered\spielmanager\Spiel.class
 de\chrisvary\mlgfightremastered\user\UserManager.class
