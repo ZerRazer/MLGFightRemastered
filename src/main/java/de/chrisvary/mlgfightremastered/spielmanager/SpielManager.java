@@ -21,6 +21,11 @@ public class SpielManager {
     }
 
     public void createGame(Player p) throws SQLException {
+        int index = getIndexWherePlayer(p);
+        if(index != -1){
+            p.sendMessage("Du bist bereits in einem Spiel drinnen!");
+            return;
+        }
         Spiel spiel = new Spiel(p);
         runden.add(spiel);
         if(spiel.getLobbySpawn() == null)
@@ -69,12 +74,12 @@ public class SpielManager {
         stmt.setInt(2, (int) loc.getX());
         stmt.setInt(3, (int) loc.getY());
         stmt.setInt(4, (int) loc.getZ());
-        stmt.setString(5, Objects.requireNonNull(loc.getWorld()).toString());
+        stmt.setString(5, Objects.requireNonNull(loc.getWorld()).getName());
 
         stmt.setInt(6, (int) loc.getX());
         stmt.setInt(7, (int) loc.getY());
         stmt.setInt(8, (int) loc.getZ());
-        stmt.setString(9, Objects.requireNonNull(loc.getWorld()).toString());
+        stmt.setString(9, Objects.requireNonNull(loc.getWorld()).getName());
         stmt.executeUpdate();
 
 
@@ -83,7 +88,7 @@ public class SpielManager {
     }
     public void stopGame(Player p){
         int index = getIndexWherePlayer(p);
-        if(index != -1) {
+        if(index == -1) {
             p.sendMessage("Du bist in keinem Spiel drinnen");
             return;
         }

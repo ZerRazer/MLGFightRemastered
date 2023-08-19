@@ -38,6 +38,7 @@ public class Spiel {
         runde = 0;
         running = false;
         this.player1 = player;
+        this.player2 = null;
 
         locations = new HashMap<>();
         locations.put("player1_spawn", null);
@@ -77,9 +78,11 @@ public class Spiel {
         });
     }
     public void joinPLayer(Player p){
-        if(this.player2 != null){
+        if(this.player2 == null){
             this.player2 = p;
-            p.sendMessage("Du bist dem Spiel gejoint. Dein Gegner ist: " + player2.getName());
+            p.teleport(locations.get("lobbyspawn"));
+            p.sendMessage("Du bist dem Spiel gejoint. Dein Gegner ist: " + player1.getName());
+            player1.sendMessage(player2.getName() + " ist dem Spiel beigetreten");
         }
     }
 
@@ -99,6 +102,6 @@ public class Spiel {
         return player2;
     }
     public Location getLobbySpawn(){
-        return locations.get(2);
+        return locations.get("lobbyspawn");
     }
 }

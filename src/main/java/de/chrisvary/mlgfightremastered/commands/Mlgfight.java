@@ -56,7 +56,11 @@ public class Mlgfight implements CommandExecutor {
                         spielManager.stopGame(p);
                         break;
                     case "join":
-                        spielManager.getRunden().get(spielManager.getRoundToJoin()).joinPLayer(p);
+                        int indexRoundToJoin = spielManager.getRoundToJoin();
+                        if(indexRoundToJoin != -1)
+                            spielManager.getRunden().get(indexRoundToJoin).joinPLayer(p);
+                        else
+                            p.sendMessage("Leider konnte keine Runde gefunden werden");
                         break;
                     case "reload":
                         try {
