@@ -47,6 +47,20 @@ public class Spiel {
 
         loadSpawnPoints();
     }
+    public void runGame(){
+        if(running)
+            return;
+        if(player1 != null && player2 != null){
+            player1.teleport(locations.get("player1_spawn"));
+            player2.teleport(locations.get("player2_spawn"));
+
+            running = true;
+
+            player1.sendMessage("Das Spiel beginnt!");
+            player2.sendMessage("Das Spiel beginnt!");
+
+        }
+    }
 
     private void loadSpawnPoints() throws SQLException {
         Database db = Main.getInstance().getDatabase();

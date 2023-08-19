@@ -45,6 +45,12 @@ public class Mlgfight implements CommandExecutor {
                             throw new RuntimeException(e);
                         }
                         break;
+                    case "run":
+                        int indexRun = spielManager.getIndexWherePlayer(p);
+                        if(indexRun != -1){
+                            spielManager.getRunden().get(indexRun).runGame();
+                        }
+                        break;
                     case "start":
                         try {
                             spielManager.createGame(p);
