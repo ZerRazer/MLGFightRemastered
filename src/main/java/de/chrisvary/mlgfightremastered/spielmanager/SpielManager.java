@@ -34,6 +34,15 @@ public class SpielManager {
             p.teleport(spiel.getLobbySpawn());
         p.sendMessage("[MLGFight]Das Spiel wurde gestartet");
     }
+    public boolean gameIsRunning(Player p){
+        if(isPlayerInRunde(p)){
+            int index = getIndexWherePlayer(p);
+            if(index == -1)
+                return false;
+            return getRunden().get(index).isRunning();
+        }
+        return false;
+    }
     public boolean isPlayerInRunde(Player p){
         for(Spiel spiel : runden){
             if(spiel.getPlayer1().equals(p))

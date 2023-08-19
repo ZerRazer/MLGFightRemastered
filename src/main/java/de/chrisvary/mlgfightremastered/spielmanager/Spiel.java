@@ -57,8 +57,6 @@ public class Spiel {
             player1.teleport(locations.get("player1_spawn"));
             player2.teleport(locations.get("player2_spawn"));
 
-            player1.setBedSpawnLocation(player1.getLocation());
-            player2.setBedSpawnLocation(player2.getLocation());
             running = true;
 
             player1.sendMessage("Das Spiel beginnt!");
@@ -122,6 +120,12 @@ public class Spiel {
     }
     public Location getLobbySpawn(){
         return locations.get("lobbyspawn");
+    }
+    public Location getPlayer1Spawn(){
+        return locations.get("player1_spawn");
+    }
+    public Location getPlayer2Spawn(){
+        return locations.get("player2_spawn");
     }
 
     public ArrayList<Block> getBlocks() {
