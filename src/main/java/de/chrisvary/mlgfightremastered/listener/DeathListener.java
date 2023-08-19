@@ -26,12 +26,13 @@ public class DeathListener implements Listener {
 
                 user.setDeaths(user.getDeaths() + 1);
                 p.sendMessage("Du hast derzeit " + user.getDeaths() + " Deaths");
+
             }
 
         }
     }
     @EventHandler
-    public void onKill(EntityDeathEvent event){
+    public void onKill(PlayerDeathEvent event){
         UserManager userManager = Main.getInstance().getUserManager();
         if(event.getEntity() instanceof Player){
 

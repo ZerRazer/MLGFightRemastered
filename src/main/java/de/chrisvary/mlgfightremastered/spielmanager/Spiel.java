@@ -6,10 +6,12 @@ import de.chrisvary.mlgfightremastered.database.Database;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -18,6 +20,7 @@ public class Spiel {
     private int runde;
     private boolean running;
     private HashMap<String, Location> locations;
+    private ArrayList<Block> blocks;
     private Inventory lobbyInventory, gameInventory;
     private Player player1, player2;
 
@@ -54,6 +57,8 @@ public class Spiel {
             player1.teleport(locations.get("player1_spawn"));
             player2.teleport(locations.get("player2_spawn"));
 
+            player1.setBedSpawnLocation(player1.getLocation());
+            player2.setBedSpawnLocation(player2.getLocation());
             running = true;
 
             player1.sendMessage("Das Spiel beginnt!");
@@ -117,5 +122,9 @@ public class Spiel {
     }
     public Location getLobbySpawn(){
         return locations.get("lobbyspawn");
+    }
+
+    public ArrayList<Block> getBlocks() {
+        return blocks;
     }
 }

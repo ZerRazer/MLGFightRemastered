@@ -43,6 +43,12 @@ public class SpielManager {
         }
         return false;
     }
+    public Spiel getSpiel(Player p){
+        int index = getIndexWherePlayer(p);
+        if(index != -1)
+            return runden.get(index);
+        return null;
+    }
     public int getIndexWherePlayer(Player p){
         int index = 0;
         for(Spiel spiel : runden){
